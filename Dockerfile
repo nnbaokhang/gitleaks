@@ -2,6 +2,8 @@ FROM golang:1.15.5 AS build
 WORKDIR /go/src/github.com/nnbaokhang/gitleaks
 COPY . .
 RUN GO111MODULE=on CGO_ENABLED=0 go build -o bin/gitleaks
+FROM alpine:3.11
+RUN apk add --no-cache bash
 COPY --from=build /go/src/github.com/nnbaokhang/gitleaks/bin/* /usr/bin/
 COPY --from=build /go/src/github.com/nnbaokhang/gitleaks/examples/* /opt/
 ENTRYPOINT ["gitleaks"]
