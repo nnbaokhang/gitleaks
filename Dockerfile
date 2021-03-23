@@ -3,9 +3,6 @@ WORKDIR /go/src/github.com/nnbaokhang/gitleaks
 ARG ldflags
 COPY . .
 RUN GO111MODULE=on CGO_ENABLED=0 go build -o bin/gitleaks
-
-FROM alpine:3.11
-RUN apk add --no-cache bash git openssh
 COPY --from=build /go/src/github.com/nnbaokhang/gitleaks/bin/* /usr/bin/
 COPY --from=build /go/src/github.com/nnbaokhang/gitleaks/examples/* /opt/
 ENTRYPOINT ["gitleaks"]
